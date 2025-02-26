@@ -21,7 +21,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleEmailServiceException(EmailSenderServiceException e) {
         return ApiException.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .message("Sorry, we are unable to send the email at the moment. Please try again later")
+                .message(e.getMessage())
                 .build()
                 .toResponseEntity();
     }

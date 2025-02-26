@@ -4,11 +4,9 @@ package carlossilva.uber_email_service_code_challenge.application.controllers.ex
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
