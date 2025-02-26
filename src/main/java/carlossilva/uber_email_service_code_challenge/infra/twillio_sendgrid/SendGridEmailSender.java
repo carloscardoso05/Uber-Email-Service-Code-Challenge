@@ -1,6 +1,6 @@
 package carlossilva.uber_email_service_code_challenge.infra.twillio_sendgrid;
 
-import carlossilva.uber_email_service_code_challenge.adapters.EmailSenderGateway;
+import carlossilva.uber_email_service_code_challenge.gateways.EmailSenderGateway;
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
 import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import com.sendgrid.Method;

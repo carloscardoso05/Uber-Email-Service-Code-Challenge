@@ -1,4 +1,4 @@
-package carlossilva.uber_email_service_code_challenge.adapters;
+package carlossilva.uber_email_service_code_challenge.gateways;
 
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
 import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
