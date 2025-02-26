@@ -10,6 +10,7 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class SendGridEmailSender implements EmailSenderGateway {
     }
 
     @Override
-    public void sendEmail(EmailModel email) throws EmailSenderGatewayException {
+    public void sendEmail(@Valid EmailModel email) throws EmailSenderGatewayException {
         log.info("SendGrid - Tentando enviar email: " + email);
         final Email from = new Email(verifiedEmail);
         final Email to = new Email(email.receiver());
