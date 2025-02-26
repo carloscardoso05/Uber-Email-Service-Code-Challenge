@@ -2,7 +2,7 @@ package carlossilva.uber_email_service_code_challenge.infra.aws_ses;
 
 import carlossilva.uber_email_service_code_challenge.adapters.EmailSenderGateway;
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
-import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailServiceException;
+import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.validation.Valid;
 import org.apache.commons.logging.Log;
@@ -22,7 +22,7 @@ public class SesEmailSender implements EmailSenderGateway {
     }
 
     @Override
-    public void sendEmail(@Valid EmailModel emailModel) throws EmailServiceException {
+    public void sendEmail(@Valid EmailModel emailModel) throws EmailSenderGatewayException {
         log.info("SES - Tentando enviar email: " + emailModel);
         final SendEmailRequest request = SendEmailRequest.builder()
                 .source(verifiedEmail)
@@ -36,7 +36,7 @@ public class SesEmailSender implements EmailSenderGateway {
             sesClient.sendEmail(request);
         } catch (Exception e) {
             log.error("SES - Erro ao enviar email " + e);
-            throw new EmailServiceException("Falha ao enviar email", e);
+            throw new EmailSenderGatewayException("Falha ao enviar email", e);
         }
     }
 }

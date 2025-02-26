@@ -1,9 +1,10 @@
 package carlossilva.uber_email_service_code_challenge.application.services;
 
 import carlossilva.uber_email_service_code_challenge.adapters.EmailSenderGateway;
+import carlossilva.uber_email_service_code_challenge.application.services.exceptions.EmailSenderServiceException;
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
 import carlossilva.uber_email_service_code_challenge.core.usecases.SendEmailUseCase;
-import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailServiceException;
+import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ public class EmailSenderService implements SendEmailUseCase {
             try {
                 gateway.sendEmail(emailModel);
                 return;
-            } catch (EmailServiceException e) {
+            } catch (EmailSenderGatewayException e) {
                 if (gateway == emailSenderGateways.getLast()) {
-                    throw e;
+                    throw new EmailSenderServiceException("All email gateways are down", e);
                 }
             }
         }

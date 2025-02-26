@@ -2,7 +2,7 @@ package carlossilva.uber_email_service_code_challenge.infra.twillio_sendgrid;
 
 import carlossilva.uber_email_service_code_challenge.adapters.EmailSenderGateway;
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
-import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailServiceException;
+import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.SendGrid;
@@ -25,7 +25,7 @@ public class SendGridEmailSender implements EmailSenderGateway {
     }
 
     @Override
-    public void sendEmail(EmailModel email) throws EmailServiceException {
+    public void sendEmail(EmailModel email) throws EmailSenderGatewayException {
         log.info("SendGrid - Tentando enviar email: " + email);
         final Email from = new Email(verifiedEmail);
         final Email to = new Email(email.receiver());
@@ -40,7 +40,7 @@ public class SendGridEmailSender implements EmailSenderGateway {
             sendGrid.api(request);
         } catch (Exception e) {
             log.error("SendGrid - Erro ao enviar email " + e);
-            throw new EmailServiceException("Falha ao enviar email", e);
+            throw new EmailSenderGatewayException("Falha ao enviar email", e);
         }
     }
 }

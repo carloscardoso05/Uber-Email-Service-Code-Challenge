@@ -1,7 +1,7 @@
 package carlossilva.uber_email_service_code_challenge.infra.twillio_sendgrid;
 
 import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
-import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailServiceException;
+import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import com.sendgrid.SendGrid;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.Assertions;
@@ -38,11 +38,11 @@ public class SendGridEmailSenderTest {
 
     @Test
     public void sendEmail_withNotWorkingApi_shouldThrowEmailServiceException() throws IOException {
-        Mockito.when(sendGrid.api(Mockito.any())).thenThrow(new IOException("Fake IO Exception"));
-        Assertions.assertThrows(EmailServiceException.class, () -> {
+        Mockito.when(sendGrid.api(Mockito.any()))
+                .thenThrow(new IOException("Fake IO Exception"));
+        Assertions.assertThrows(EmailSenderGatewayException.class, () -> {
             final EmailModel email = new EmailModel("", "", "");
             sendGridEmailSender.sendEmail(email);
         });
     }
-
 }
