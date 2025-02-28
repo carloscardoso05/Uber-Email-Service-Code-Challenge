@@ -5,6 +5,7 @@ import carlossilva.uber_email_service_code_challenge.core.domain.EmailModel;
 import carlossilva.uber_email_service_code_challenge.infra.exceptions.EmailSenderGatewayException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
+import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
@@ -13,6 +14,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +29,6 @@ public class SendGridEmailSender implements EmailSenderGateway {
 
     @Override
     public void sendEmail(@Valid EmailModel email) throws EmailSenderGatewayException {
-        log.info("SendGrid - Tentando enviar email: " + email);
         final Email from = new Email(verifiedEmail);
         final Email to = new Email(email.receiver());
         final String subject = email.subject();
@@ -35,10 +36,15 @@ public class SendGridEmailSender implements EmailSenderGateway {
         final Mail mail = new Mail(from, subject, to, body);
         final Request request = new Request();
         try {
+            log.info("SendGrid - Tentando enviar email: " + email);
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-            sendGrid.api(request);
+            final Response response = sendGrid.api(request);
+            if (HttpStatus.valueOf(response.getStatusCode()).isError()) {
+                throw new EmailSenderGatewayException("Falha ao enviar email" + response.getBody());
+            }
+            log.info("SendGrid - Email enviado com sucesso");
         } catch (Exception e) {
             log.error("SendGrid - Erro ao enviar email " + e);
             throw new EmailSenderGatewayException("Falha ao enviar email", e);

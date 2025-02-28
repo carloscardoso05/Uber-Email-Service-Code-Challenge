@@ -34,6 +34,7 @@ public class SesEmailSender implements EmailSenderGateway {
                 .build();
         try {
             sesClient.sendEmail(request);
+            log.info("SES - Email enviado com sucesso");
         } catch (Exception e) {
             log.error("SES - Erro ao enviar email " + e);
             throw new EmailSenderGatewayException("Falha ao enviar email", e);

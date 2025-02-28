@@ -39,7 +39,7 @@ public class SesEmailSenderTest {
     }
 
     @Test
-    public void sendEmail_withNotWorkingApi_shouldThrowEmailServiceException() throws IOException {
+    public void sendEmail_withNotWorkingApi_shouldThrowEmailServiceException() {
         Mockito.when(sesClient.sendEmail(Mockito.<SendEmailRequest>any()))
                 .thenThrow(SesException.builder()
                         .message("Fake Ses Exception")
